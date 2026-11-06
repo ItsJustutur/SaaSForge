@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 export default function GenererPage() {
   const [prompt, setPrompt] = useState("");
@@ -77,8 +78,8 @@ export default function GenererPage() {
         {result && (
           <div className="mt-8 rounded-xl bg-white p-6 shadow-sm border border-gray-200">
             <h2 className="text-xl font-semibold mb-4">Résultat de l'IA</h2>
-            <div className="whitespace-pre-wrap text-gray-700 bg-gray-50 p-4 rounded-lg">
-              {result}
+            <div className="text-gray-700 bg-gray-50 p-4 rounded-lg overflow-auto max-h-[500px]">
+              <ReactMarkdown>{result}</ReactMarkdown>
             </div>
           </div>
         )}
