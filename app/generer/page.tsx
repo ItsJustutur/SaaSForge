@@ -8,6 +8,7 @@ export default function GenererPage() {
   const [prompt, setPrompt] = useState("");
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isCopied, setIsCopied] = useState(false); // Nouvel état pour le bouton
 
   const handleGenerer = async () => {
     if (!prompt.trim()) {
@@ -37,6 +38,13 @@ export default function GenererPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Fonction pour copier le texte
+  const handleCopier = () => {
+    navigator.clipboard.writeText(result);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000); // Le bouton redevient normal après 2 secondes
   };
 
   return (
@@ -77,7 +85,22 @@ export default function GenererPage() {
         {/* Zone d'affichage du résultat de l'IA */}
         {result && (
           <div className="mt-8 rounded-xl bg-white p-6 shadow-sm border border-gray-200">
-            <h2 className="text-xl font-semibold mb-4">Résultat de l'IA</h2>
+            {/* En-tête avec le bouton copier */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-900">Résultat de l'IA</h2>
+              <button
+                onClick={handleCopier}
+                className={`text-sm px-3 py-1.5 rounded-md transition-colors ${
+                  isCopied 
+                    ? "bg-green-100 text-green-700 hover:bg-green-200" 
+                    : "bg-gray-100 hover:bg-gray-200 text-gray-700"
+                }`}
+              >
+                {isCopied ? " Copié !" : " Copier"}
+              </button>
+            </div>
+
+            {/* Le contenu Markdown */}
             <div className="text-gray-700 bg-gray-50 p-4 rounded-lg overflow-auto max-h-[500px]">
               <ReactMarkdown>{result}</ReactMarkdown>
             </div>
